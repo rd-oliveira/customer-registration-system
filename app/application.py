@@ -1,4 +1,4 @@
-from customtkinter import CTk, CTkLabel
+from customtkinter import CTk
 
 from services import home, registration
 
@@ -20,7 +20,7 @@ class App(CTk):
         self.configure(fg_color="#3E3E3E")
 
     def interface(self):
-        self.frames = {}  # dicionário para guardar as telas
+        self.frames = {}  # dictionary to save the screens
         self.create_frames()
         self.show_frame("home")
 
@@ -32,7 +32,7 @@ class App(CTk):
         self.frames["registration"] = registration.Register(
             self,
             switch_screen=self.show_frame,
-            on_cancel=lambda: self.show_frame("home"),  # voltar a tela inicial
+            on_cancel=lambda: self.show_frame("home"),  # return to home screen
         )
 
         for frame in self.frames.values():
