@@ -1,6 +1,6 @@
 from customtkinter import CTk, CTkLabel
 
-from services import home
+from services import home, registration
 
 
 class App(CTk):
@@ -20,12 +20,25 @@ class App(CTk):
         self.configure(fg_color="#3E3E3E")
 
     def interface(self):
-        self.reg = home.HomeScreen(self)
-        self.reg.place(relx=0.5, rely=0.5, anchor="center")
+        self.frames = {}  # dicionário para guardar as telas
+        self.create_frames()
+        self.show_frame("home")
 
-        self.lbl_version = CTkLabel(
+    def create_frames(self):
+        self.frames["home"] = home.HomeScreen(
             self,
-            text="version: 0.0.1",
-            text_color="#ffffff",
+            switch_screen=self.show_frame,
         )
-        self.lbl_version.place(relx=0.74, rely=0.95, anchor="sw")
+        self.frames["registration"] = registration.Register(
+            self,
+            switch_screen=self.show_frame,
+            on_cancel=lambda: self.show_frame("home"),  # voltar a tela inicial
+        )
+
+        for frame in self.frames.values():
+            frame.place(relx=0.5, rely=0.5, anchor="center")
+
+    def show_frame(self, name):
+        for key, frame in self.frames.items():
+            frame.place_forget()
+        self.frames[name].place(relx=0.5, rely=0.5, anchor="center")

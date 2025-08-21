@@ -1,15 +1,26 @@
+from pathlib import Path
 from customtkinter import CTkFrame, CTkEntry, CTkLabel, CTkButton, CTkImage
 from PIL import Image
 
 
 class Register(CTkFrame):
-    def __init__(self, master, width=200, height=200, fg_color="transparent"):
+    def __init__(
+        self,
+        master,
+        switch_screen=None,
+        on_cancel=None,
+        width=200,
+        height=200,
+        fg_color="transparent",
+    ):
         super().__init__(master, width=width, height=height, fg_color=fg_color)
 
+        self.switch_screen = switch_screen
+        self.on_cancel = on_cancel
+
         my_image = CTkImage(
-            light_image=Image.open(r".\assets\customer_logo.png"),
-            dark_image=Image.open(r".\assets\customer_logo.png"),
-            size=((116, 125)),
+            light_image=Image.open(Path("./assets/logo/logo_customer.png")),
+            size=((115, 125)),
         )
 
         self.customer_logo = CTkLabel(self, text="", image=my_image)
@@ -33,5 +44,7 @@ class Register(CTkFrame):
         self.btn_register = CTkButton(self.frame_button, text="Register")
         self.btn_register.pack(padx=5, side="left")
 
-        self.btn_cancel = CTkButton(self.frame_button, text="Cancel")
+        self.btn_cancel = CTkButton(
+            self.frame_button, text="Cancel", command=self.on_cancel
+        )
         self.btn_cancel.pack(padx=5, side="right")
